@@ -1,0 +1,43 @@
+{
+  "name": "chance-path-object",
+  "description": "A Chance.js mixin to generate path objects.",
+  "version": "0.0.0",
+  "author": {
+    "name": "Michael Novotny",
+    "email": "manovotny@gmail.com",
+    "url": "htts://manovotny.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manovotny/chance-path-object.git"
+  },
+  "keywords": [
+    "chance",
+    "generated",
+    "mixin",
+    "node",
+    "path",
+    "objects",
+    "random"
+  ],
+  "engines": {
+    "node": ">=6"
+  },
+  "main": "index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext .json --ext .js",
+    "test": "npm run lint && npm run unit",
+    "unit": "jest"
+  },
+  "dependencies": {
+    "chance": "1.0.9"
+  },
+  "devDependencies": {
+    "eslint-config-get-off-my-lawn": "2.1.0",
+    "jest": "20.0.4"
+  }
+}
