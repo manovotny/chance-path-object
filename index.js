@@ -1,56 +1,10 @@
-// ({root = false, dir = false, name = false, ext = false, base = false, relative = false, dotfile = false} = {}) => {
-//     const object = {
-//         base: '',
-//         dir: '',
-//         ext: '',
-//         name: '',
-//         root: ''
-//     };
-//
-//     if (root) {
-//         object.root = '/';
-//     }
-//
-//     if (dir) {
-//         if (root) {
-//             object.dir = object.root + chance.path();
-//         } else if (relative) {
-//             object.dir = `../${chance.path()}`;
-//         } else {
-//             object.dir = chance.path();
-//         }
-//     }
-//
-//     if (name) {
-//         object.name = dotfile ? `.${chance.word()}` : chance.word();
-//     }
-//
-//     if (ext) {
-//         object.ext = `.${chance.word()}`;
-//     }
-//
-//     if (base) {
-//         if (object.name.length && object.ext.length) {
-//             object.base = object.name + object.ext;
-//         } else if (object.name.length) {
-//             object.base = object.name;
-//         } else if (object.ext.length) {
-//             object.base = object.ext;
-//         } else {
-//             object.base = `${chance.word()}.${chance.word()}`;
-//         }
-//     }
-//
-//     return object;
-// }
-
-
-module.exports = ({root = false, dir = false, relative = false, name = false, dotfile = false, ext = false} = {}) => {
+module.exports = ({root = false, dir = false, relative = false, name = false, dotfile = false, ext = false, base = false} = {}) => {
     const pathObject = {
         root: '',
         dir: '',
         name: '',
-        ext: ''
+        ext: '',
+        base: ''
     };
 
     if (root) {
@@ -73,6 +27,18 @@ module.exports = ({root = false, dir = false, relative = false, name = false, do
 
     if (ext) {
         pathObject.ext = `.${chance.word()}`;
+    }
+
+    if (base) {
+        if (pathObject.name && pathObject.ext) {
+            pathObject.base = pathObject.name + pathObject.ext;
+        } else if (pathObject.name) {
+            pathObject.base = pathObject.name;
+        } else if (pathObject.ext) {
+            pathObject.base = pathObject.ext;
+        } else {
+            pathObject.base = `${chance.word()}.${chance.word()}`;
+        }
     }
 
     return pathObject;

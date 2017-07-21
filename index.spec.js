@@ -6,7 +6,9 @@ const pathObject = require('./index');
 describe('index', () => {
     const chance = new Chance();
 
-    let dir,
+    let chancePath,
+        chanceWord,
+        dir,
         name,
         ext;
 
@@ -16,8 +18,8 @@ describe('index', () => {
             pathObject
         });
 
-        const chancePath = chance.path();
-        const chanceWord = chance.word();
+        chancePath = chance.path();
+        chanceWord = chance.word();
 
         dir = chancePath;
         name = chanceWord;
@@ -125,6 +127,50 @@ describe('index', () => {
             });
 
             expect(result.ext).toBe(`.${ext}`);
+        });
+    });
+
+    describe('base', () => {
+        it('should **not** return by default', () => {
+            const result = chance.pathObject();
+
+            expect(result.base).toBe('');
+        });
+
+        it('should return when specified', () => {
+            const result = chance.pathObject({
+                base: true
+            });
+
+            expect(result.base).toBe(`${chanceWord}.${chanceWord}`);
+        });
+
+        it('should return name when specified', () => {
+            const result = chance.pathObject({
+                base: true,
+                name: true
+            });
+
+            expect(result.base).toBe(result.name);
+        });
+
+        it('should return ext when specified', () => {
+            const result = chance.pathObject({
+                base: true,
+                ext: true
+            });
+
+            expect(result.base).toBe(result.ext);
+        });
+
+        it('should return name and ext when specified', () => {
+            const result = chance.pathObject({
+                base: true,
+                name: true,
+                ext: true
+            });
+
+            expect(result.base).toBe(result.name + result.ext);
         });
     });
 });
