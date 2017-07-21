@@ -7,7 +7,8 @@ describe('index', () => {
     const chance = new Chance();
 
     let dir,
-        name;
+        name,
+        ext;
 
     beforeEach(() => {
         chance.mixin({
@@ -15,11 +16,15 @@ describe('index', () => {
             pathObject
         });
 
-        dir = chance.path();
-        name = chance.word();
+        const chancePath = chance.path();
+        const chanceWord = chance.word();
 
-        spyOn(Chance.prototype, 'path').and.returnValue(dir);
-        spyOn(Chance.prototype, 'word').and.returnValue(name);
+        dir = chancePath;
+        name = chanceWord;
+        ext = chanceWord;
+
+        spyOn(Chance.prototype, 'path').and.returnValue(chancePath);
+        spyOn(Chance.prototype, 'word').and.returnValue(chanceWord);
     });
 
     describe('root', () => {
@@ -104,6 +109,22 @@ describe('index', () => {
             });
 
             expect(result.name).toBe(`.${name}`);
+        });
+    });
+
+    describe('ext', () => {
+        it('should **not** return by default', () => {
+            const result = chance.pathObject();
+
+            expect(result.ext).toBe('');
+        });
+
+        it('should return when specified', () => {
+            const result = chance.pathObject({
+                ext: true
+            });
+
+            expect(result.ext).toBe(`.${ext}`);
         });
     });
 });
