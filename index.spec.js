@@ -1,42 +1,81 @@
-const {isAbsolute, parse} = require('path');
-
 const Chance = require('chance');
+const path = require('chance-path');
 
 const pathObject = require('./index');
 
-describe('index.js', () => {
+describe('index', () => {
     const chance = new Chance();
 
-    let bool,
-        d6,
-        word;
+    let ppp;
 
     beforeEach(() => {
-        bool = chance.bool();
-        d6 = chance.d6();
-        word = chance.word();
-
-        spyOn(Chance.prototype, 'bool').and.returnValue(bool);
-        spyOn(Chance.prototype, 'd6').and.returnValue(d6);
-        spyOn(Chance.prototype, 'word').and.returnValue(word);
-
         chance.mixin({
+            path,
             pathObject
         });
+
+        ppp = chance.word();
+
+        spyOn(Chance.prototype, 'path').and.returnValue(ppp);
     });
 
     describe('root', () => {
-        it('should return default root', () => {
+        it('should **not** return by default', () => {
             const result = chance.pathObject();
 
-            expect(isAbsolute(result.root)).toEqual(bool);
+            expect(result.root).toBe('');
         });
 
-        it('should return custom root', () => {
-            const root = chance.pickone([true, false]);
-            const result = chance.pathObject({root});
+        it('should return when specified', () => {
+            const result = chance.pathObject({
+                root: true
+            });
 
-            expect(isAbsolute(result.root)).toEqual(root);
+            expect(result.root).toBe('/');
+        });
+    });
+
+    describe('dir', () => {
+        it('should **not** return by default', () => {
+            const result = chance.pathObject();
+
+            expect(result.dir).toBe('');
+        });
+
+        it('should return when specified', () => {
+            const result = chance.pathObject({
+                dir: true
+            });
+
+            expect(result.dir).toBe(ppp);
+        });
+
+        it('should return with root prepended when specified', () => {
+            const result = chance.pathObject({
+                dir: true,
+                root: true
+            });
+
+            expect(result.dir).toBe(`/${ppp}`);
+        });
+
+        it('should return with relative directory prepended when specified', () => {
+            const result = chance.pathObject({
+                dir: true,
+                relative: true
+            });
+
+            expect(result.dir).toBe(`../${ppp}`);
+        });
+
+        it('should return with root prepended when both root and relative are specified', () => {
+            const result = chance.pathObject({
+                dir: true,
+                relative: true,
+                root: true
+            });
+
+            expect(result.dir).toBe(`/${ppp}`);
         });
     });
 });
