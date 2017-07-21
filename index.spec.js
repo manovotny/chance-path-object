@@ -6,7 +6,8 @@ const pathObject = require('./index');
 describe('index', () => {
     const chance = new Chance();
 
-    let ppp;
+    let dir,
+        name;
 
     beforeEach(() => {
         chance.mixin({
@@ -14,9 +15,11 @@ describe('index', () => {
             pathObject
         });
 
-        ppp = chance.word();
+        dir = chance.path();
+        name = chance.word();
 
-        spyOn(Chance.prototype, 'path').and.returnValue(ppp);
+        spyOn(Chance.prototype, 'path').and.returnValue(dir);
+        spyOn(Chance.prototype, 'word').and.returnValue(name);
     });
 
     describe('root', () => {
@@ -47,7 +50,7 @@ describe('index', () => {
                 dir: true
             });
 
-            expect(result.dir).toBe(ppp);
+            expect(result.dir).toBe(dir);
         });
 
         it('should return with root prepended when specified', () => {
@@ -56,7 +59,7 @@ describe('index', () => {
                 root: true
             });
 
-            expect(result.dir).toBe(`/${ppp}`);
+            expect(result.dir).toBe(`/${dir}`);
         });
 
         it('should return with relative directory prepended when specified', () => {
@@ -65,7 +68,7 @@ describe('index', () => {
                 relative: true
             });
 
-            expect(result.dir).toBe(`../${ppp}`);
+            expect(result.dir).toBe(`../${dir}`);
         });
 
         it('should return with root prepended when both root and relative are specified', () => {
@@ -75,7 +78,32 @@ describe('index', () => {
                 root: true
             });
 
-            expect(result.dir).toBe(`/${ppp}`);
+            expect(result.dir).toBe(`/${dir}`);
+        });
+    });
+
+    describe('name', () => {
+        it('should **not** return by default', () => {
+            const result = chance.pathObject();
+
+            expect(result.name).toBe('');
+        });
+
+        it('should return when specified', () => {
+            const result = chance.pathObject({
+                name: true
+            });
+
+            expect(result.name).toBe(name);
+        });
+
+        it('should return as dotfile when specified', () => {
+            const result = chance.pathObject({
+                name: true,
+                dotfile: true
+            });
+
+            expect(result.name).toBe(`.${name}`);
         });
     });
 });

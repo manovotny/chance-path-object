@@ -45,10 +45,11 @@
 // }
 
 
-module.exports = ({root = false, dir = false, relative = false} = {}) => {
+module.exports = ({root = false, dir = false, relative = false, name = false, dotfile = false} = {}) => {
     const pathObject = {
         root: '',
-        dir: ''
+        dir: '',
+        name: ''
     };
 
     if (root) {
@@ -63,6 +64,10 @@ module.exports = ({root = false, dir = false, relative = false} = {}) => {
         } else {
            pathObject.dir = chance.path();
         }
+    }
+
+    if (name) {
+        pathObject.name = dotfile ? `.${chance.word()}` : chance.word();
     }
 
     return pathObject;
