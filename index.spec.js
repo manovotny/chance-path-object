@@ -100,8 +100,8 @@ describe('index', () => {
 
         it('should return as dotfile when specified', () => {
             const result = chance.pathObject({
-                name: true,
-                dotfile: true
+                dotfile: true,
+                name: true
             });
 
             expect(result.name).toBe(`.${chanceWord}`);
@@ -160,8 +160,8 @@ describe('index', () => {
         it('should return name and ext when specified', () => {
             const result = chance.pathObject({
                 base: true,
-                name: true,
-                ext: true
+                ext: true,
+                name: true
             });
 
             expect(result.base).toBe(result.name + result.ext);
