@@ -12,12 +12,14 @@ module.exports = ({root = false, dir = false, relative = false, name = false, do
     }
 
     if (dir) {
+        const path = chance.n(chance.word, chance.d6()).join('/');
+
         if (root) {
-            pathObject.dir = pathObject.root + chance.path();
+            pathObject.dir = pathObject.root + path;
         } else if (relative) {
-            pathObject.dir = `../${chance.path()}`;
+            pathObject.dir = `../${path}`;
         } else {
-           pathObject.dir = chance.path();
+           pathObject.dir = path;
         }
     }
 

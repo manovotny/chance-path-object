@@ -1,36 +1,30 @@
 const Chance = require('chance');
-const path = require('chance-path');
 
 const pathObject = require('./index');
 
 describe('index', () => {
     const chance = new Chance();
 
-    let chancePath,
-        chanceWord,
-        dir,
-        name,
-        ext;
+    let chanceD6,
+        chancePath,
+        chanceWord;
 
     beforeEach(() => {
         chance.mixin({
-            path,
             pathObject
         });
 
-        chancePath = chance.path();
+        chanceD6 = chance.d6();
         chanceWord = chance.word();
 
-        dir = chancePath;
-        name = chanceWord;
-        ext = chanceWord;
-
-        spyOn(Chance.prototype, 'path').and.returnValue(chancePath);
+        spyOn(Chance.prototype, 'd6').and.returnValue(chanceD6);
         spyOn(Chance.prototype, 'word').and.returnValue(chanceWord);
+
+        chancePath = chance.n(chance.word, chance.d6()).join('/');
     });
 
     describe('root', () => {
-        it('should **not** return by default', () => {
+        it('should return an empty string by default', () => {
             const result = chance.pathObject();
 
             expect(result.root).toBe('');
@@ -46,7 +40,7 @@ describe('index', () => {
     });
 
     describe('dir', () => {
-        it('should **not** return by default', () => {
+        it('should return an empty string by default', () => {
             const result = chance.pathObject();
 
             expect(result.dir).toBe('');
@@ -57,7 +51,7 @@ describe('index', () => {
                 dir: true
             });
 
-            expect(result.dir).toBe(dir);
+            expect(result.dir).toBe(chancePath);
         });
 
         it('should return with root prepended when specified', () => {
@@ -66,7 +60,7 @@ describe('index', () => {
                 root: true
             });
 
-            expect(result.dir).toBe(`/${dir}`);
+            expect(result.dir).toBe(`/${chancePath}`);
         });
 
         it('should return with relative directory prepended when specified', () => {
@@ -75,7 +69,7 @@ describe('index', () => {
                 relative: true
             });
 
-            expect(result.dir).toBe(`../${dir}`);
+            expect(result.dir).toBe(`../${chancePath}`);
         });
 
         it('should return with root prepended when both root and relative are specified', () => {
@@ -85,12 +79,12 @@ describe('index', () => {
                 root: true
             });
 
-            expect(result.dir).toBe(`/${dir}`);
+            expect(result.dir).toBe(`/${chancePath}`);
         });
     });
 
     describe('name', () => {
-        it('should **not** return by default', () => {
+        it('should return an empty string by default', () => {
             const result = chance.pathObject();
 
             expect(result.name).toBe('');
@@ -101,7 +95,7 @@ describe('index', () => {
                 name: true
             });
 
-            expect(result.name).toBe(name);
+            expect(result.name).toBe(chanceWord);
         });
 
         it('should return as dotfile when specified', () => {
@@ -110,12 +104,12 @@ describe('index', () => {
                 dotfile: true
             });
 
-            expect(result.name).toBe(`.${name}`);
+            expect(result.name).toBe(`.${chanceWord}`);
         });
     });
 
     describe('ext', () => {
-        it('should **not** return by default', () => {
+        it('should return an empty string by default', () => {
             const result = chance.pathObject();
 
             expect(result.ext).toBe('');
@@ -126,12 +120,12 @@ describe('index', () => {
                 ext: true
             });
 
-            expect(result.ext).toBe(`.${ext}`);
+            expect(result.ext).toBe(`.${chanceWord}`);
         });
     });
 
     describe('base', () => {
-        it('should **not** return by default', () => {
+        it('should return an empty string by default', () => {
             const result = chance.pathObject();
 
             expect(result.base).toBe('');
