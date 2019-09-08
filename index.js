@@ -1,5 +1,16 @@
-/* eslint-disable complexity */
-module.exports = ({root = false, dir = false, relative = false, name = false, dotfile = false, ext = false, base = false} = {}) => {
+const Chance = require('chance');
+
+const chance = new Chance();
+
+module.exports = ({
+    root = false,
+    dir = false,
+    relative = false,
+    name = false,
+    dotfile = false,
+    ext = false,
+    base = false
+} = {}) => {
     const pathObject = {
         base: '',
         dir: '',
@@ -13,7 +24,7 @@ module.exports = ({root = false, dir = false, relative = false, name = false, do
     }
 
     if (dir) {
-        const path = chance.n(chance.word, chance.d6()).join('/'); // eslint-disable-line no-undef
+        const path = chance.n(chance.word, chance.d6()).join('/');
 
         if (root) {
             pathObject.dir = pathObject.root + path;
@@ -25,11 +36,11 @@ module.exports = ({root = false, dir = false, relative = false, name = false, do
     }
 
     if (name) {
-        pathObject.name = dotfile ? `.${chance.word()}` : chance.word(); // eslint-disable-line no-undef
+        pathObject.name = dotfile ? `.${chance.word()}` : chance.word();
     }
 
     if (ext) {
-        pathObject.ext = `.${chance.word()}`; // eslint-disable-line no-undef
+        pathObject.ext = `.${chance.word()}`;
     }
 
     if (base) {
@@ -40,10 +51,9 @@ module.exports = ({root = false, dir = false, relative = false, name = false, do
         } else if (pathObject.ext) {
             pathObject.base = pathObject.ext;
         } else {
-            pathObject.base = `${chance.word()}.${chance.word()}`; // eslint-disable-line no-undef
+            pathObject.base = `${chance.word()}.${chance.word()}`;
         }
     }
 
     return pathObject;
 };
-/* eslint-enable */

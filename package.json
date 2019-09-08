@@ -1,43 +1,64 @@
 {
-  "name": "chance-path-object",
-  "description": "A Chance.js mixin to generate path objects.",
-  "version": "1.0.0",
-  "author": {
-    "name": "Michael Novotny",
-    "email": "manovotny@gmail.com",
-    "url": "htts://manovotny.com"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/manovotny/chance-path-object.git"
-  },
-  "keywords": [
-    "chance",
-    "generated",
-    "mixin",
-    "node",
-    "path",
-    "objects",
-    "random"
-  ],
-  "engines": {
-    "node": ">=6"
-  },
-  "main": "index.js",
-  "files": [
-    "src"
-  ],
-  "scripts": {
-    "lint": "eslint . --ext .json --ext .js",
-    "test": "npm run lint && npm run unit",
-    "unit": "jest"
-  },
-  "dependencies": {
-    "chance": "1.0.9"
-  },
-  "devDependencies": {
-    "eslint-config-get-off-my-lawn": "2.1.0",
-    "jest": "20.0.4"
-  }
+    "name": "chance-path-object",
+    "description": "A Chance.js mixin to generate path objects.",
+    "version": "1.0.0",
+    "author": {
+        "name": "Michael Novotny",
+        "email": "manovotny@gmail.com",
+        "url": "htts://manovotny.com"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/manovotny/chance-path-object.git"
+    },
+    "keywords": [
+        "chance",
+        "generated",
+        "mixin",
+        "node",
+        "path",
+        "objects",
+        "random"
+    ],
+    "engines": {
+        "node": ">=8.6.0",
+        "yarn": ">=1.0.0"
+    },
+    "main": "index.js",
+    "files": [
+        "src"
+    ],
+    "scripts": {
+        "lint": "eslint . --ext .js --ext .json",
+        "prettier": "prettier --write \"**/*.{js,json,md,yml}\"",
+        "prettier:check": "prettier --check \"**/*.{js,json,md,yml}\"",
+        "test": "yarn lint && yarn prettier:check && yarn unit",
+        "unit": "jest"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,json,md,yml}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "dependencies": {
+        "chance": "1.1.0"
+    },
+    "devDependencies": {
+        "eslint": "6.2.1",
+        "eslint-config-get-off-my-lawn": "5.0.1",
+        "husky": "3.0.5",
+        "jest": "24.9.0",
+        "lint-staged": "9.2.5",
+        "prettier": "1.18.2"
+    },
+    "peerDependencies": {
+        "chance": "^1.0.13"
+    }
 }
